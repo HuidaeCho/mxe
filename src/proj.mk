@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 82f1345e5fa530c407cb1fc0752e83f8d08d2b98772941bbdc7820241f7fa
 $(PKG)_SUBDIR   := proj-$($(PKG)_VERSION)
 $(PKG)_FILE     := proj-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://download.osgeo.org/proj/$($(PKG)_FILE)
-$(PKG)_DEPS     := cc
+$(PKG)_DEPS     := cc sqlite
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://proj.org/download.html' | \
