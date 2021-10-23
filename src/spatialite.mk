@@ -25,6 +25,7 @@ define $(PKG)_BUILD
         $(MXE_CONFIGURE_OPTS) \
         --enable-freexl=yes \
         --enable-rttopo=no \
+        --enable-minizip=no \
         --with-geosconfig='$(PREFIX)/$(TARGET)/bin/geos-config'
     $(MAKE) -C '$(SOURCE_DIR)' -j '$(JOBS)' $(if $(BUILD_SHARED), LDFLAGS='-no-undefined')
     $(MAKE) -C '$(SOURCE_DIR)' -j 1  $(INSTALL_STRIP_LIB)
