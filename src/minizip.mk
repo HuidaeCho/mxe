@@ -3,8 +3,8 @@
 PKG             := minizip
 $(PKG)_WEBSITE  := https://www.winimage.com/zLibDll/minizip.html
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2aa369c
-$(PKG)_CHECKSUM := 165afc71c29863f41c4d1cf9d3a2b1333b863e3d66e5e05b9e1e41c5af8b8a44
+$(PKG)_VERSION  := 99d3901
+$(PKG)_CHECKSUM := f35385912cb41bd8bf13806a4d8367f44142ad0cb72b8812bfb65bb4d2f2c7fd
 $(PKG)_GH_CONF  := nmoinvaz/minizip/branches/master
 $(PKG)_DEPS     := cc bzip2 zlib
 
