@@ -2,10 +2,9 @@ This file is part of MXE. See LICENSE.md for licensing information.
 
 Contains ad hoc patches for cross building.
 
-diff --git a/src/gaiageo/gg_shape.c b/src/gaiageo/gg_shape.c
-index 1111111..2222222 100644
---- a/src/gaiageo/gg_shape.c
-+++ b/src/gaiageo/gg_shape.c
+diff -ru libspatialite-5.0.1.orig/src/gaiageo/gg_shape.c libspatialite-5.0.1/src/gaiageo/gg_shape.c
+--- libspatialite-5.0.1.orig/src/gaiageo/gg_shape.c	2021-02-07 10:53:46.000000000 -0500
++++ libspatialite-5.0.1/src/gaiageo/gg_shape.c	2021-10-23 12:00:27.034851827 -0400
 @@ -58,7 +58,7 @@
  #endif
  
