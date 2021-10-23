@@ -4,19 +4,19 @@ PKG             := gdal
 $(PKG)_WEBSITE  := https://www.gdal.org/
 $(PKG)_DESCR    := GDAL
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.2.4
-$(PKG)_CHECKSUM := 441eb1d1acb35238ca43a1a0a649493fc91fdcbab231d0747e9d462eea192278
+$(PKG)_VERSION  := 3.3.2
+$(PKG)_CHECKSUM := 630e34141cf398c3078d7d8f08bb44e804c65bbf09807b3610dcbfbc37115cc3
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://download.osgeo.org/gdal/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := cc armadillo curl expat geos giflib gta hdf4 hdf5 \
                    jpeg json-c libgeotiff libmysqlclient libpng libxml2 \
-                   netcdf openjpeg postgresql proj spatialite sqlite tiff zlib
+                   netcdf openjpeg proj spatialite sqlite tiff zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://trac.osgeo.org/gdal/wiki/DownloadSource' | \
-    $(SED) -n 's,.*gdal-\([0-9][^>]*\)\.tar.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- 'http://download.osgeo.org/gdal/' | \
+    $(SED) -n 's,.*>\([0-9.]*\)/.*,\1,p' | \
+    tail -1
 endef
 
 define $(PKG)_BUILD
@@ -72,8 +72,8 @@ define $(PKG)_BUILD
         --with-sqlite3='$(PREFIX)/$(TARGET)' \
         --with-threads=no \
         --with-xerces=no \
-        --with-xml2='$(PREFIX)/$(TARGET)/bin/xml2-config' \
-        --with-pg='$(PREFIX)/$(TARGET)/bin/pg_config' \
+        --with-xml2=yes \
+        --with-pg=no \
         CXXFLAGS='-D_WIN32_WINNT=0x0600' \
         LIBS="-ljpeg -lsecur32 -lportablexdr `'$(TARGET)-pkg-config' --libs openssl libtiff-4 spatialite freexl armadillo`" \
         $(PKG_CONFIGURE_OPTS)
