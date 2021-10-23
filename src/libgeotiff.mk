@@ -4,15 +4,15 @@ PKG             := libgeotiff
 $(PKG)_WEBSITE  := https://trac.osgeo.org/geotiff/
 $(PKG)_DESCR    := GeoTiff
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.4.2
-$(PKG)_CHECKSUM := ad87048adb91167b07f34974a8e53e4ec356494c29f1748de95252e8f81a5e6e
+$(PKG)_VERSION  := 1.7.0
+$(PKG)_CHECKSUM := fc304d8839ca5947cfbeb63adb9d1aa47acef38fc6d6689e622926e672a99a7e
 $(PKG)_SUBDIR   := libgeotiff-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgeotiff-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://download.osgeo.org/geotiff/libgeotiff/$($(PKG)_FILE)
 $(PKG)_DEPS     := cc jpeg proj tiff zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://trac.osgeo.org/geotiff/' | \
+    $(WGET) -q -O- 'https://github.com/OSGeo/libgeotiff/releases' | \
     $(SED) -n 's,.*libgeotiff-\([0-9][^>]*\)\.tar.*,\1,p' | \
     head -1
 endef
