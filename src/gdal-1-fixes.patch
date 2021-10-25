@@ -1,0 +1,210 @@
+This file is part of MXE. See LICENSE.md for licensing information.
+
+Contains ad hoc patches for cross building.
+
+diff -ru gdal-3.3.2.orig/apps/dumpoverviews.cpp gdal-3.3.2/apps/dumpoverviews.cpp
+--- gdal-3.3.2.orig/apps/dumpoverviews.cpp	2021-09-01 05:51:36.000000000 -0400
++++ gdal-3.3.2/apps/dumpoverviews.cpp	2021-10-24 23:27:23.783783899 -0400
+@@ -31,6 +31,7 @@
+ #include "cpl_string.h"
+ #include "gdal_priv.h"
+ #include "ogr_spatialref.h"
++#include "commonutils.h"
+ 
+ CPL_CVSID("$Id: dumpoverviews.cpp 355b41831cd2685c85d1aabe5b95665a2c6e99b7 2019-06-19 17:07:04 +0200 Even Rouault $")
+ 
+@@ -51,7 +52,7 @@
+ /*                                main()                                */
+ /************************************************************************/
+ 
+-int main( int argc, char ** argv )
++MAIN_START(argc, argv)
+ 
+ {
+     GDALAllRegister();
+@@ -180,6 +181,7 @@
+ 
+     return 0;
+ }
++MAIN_END
+ 
+ /************************************************************************/
+ /*                              DumpBand()                              */
+diff -ru gdal-3.3.2.orig/apps/gdal2ogr.c gdal-3.3.2/apps/gdal2ogr.c
+--- gdal-3.3.2.orig/apps/gdal2ogr.c	2021-09-01 05:51:35.000000000 -0400
++++ gdal-3.3.2/apps/gdal2ogr.c	2021-10-24 23:27:25.508783875 -0400
+@@ -31,6 +31,7 @@
+ #include "ogr_api.h"
+ #include "ogr_srs_api.h"
+ #include "cpl_string.h"
++#include <wchar.h>
+ 
+ CPL_CVSID("$Id: gdal2ogr.c 355b41831cd2685c85d1aabe5b95665a2c6e99b7 2019-06-19 17:07:04 +0200 Even Rouault $")
+ 
+@@ -73,7 +74,7 @@
+ /*                                main()                                */
+ /************************************************************************/
+ 
+-int main(int argc, char* argv[])
++int wmain(int argc, wchar_t* argv[])
+ {
+     const char     *pszFormat = "ESRI Shapefile";
+     char           *pszLayerName = NULL;
+diff -ru gdal-3.3.2.orig/apps/gdalasyncread.cpp gdal-3.3.2/apps/gdalasyncread.cpp
+--- gdal-3.3.2.orig/apps/gdalasyncread.cpp	2021-09-01 05:51:35.000000000 -0400
++++ gdal-3.3.2/apps/gdalasyncread.cpp	2021-10-24 23:27:23.789783899 -0400
+@@ -32,6 +32,7 @@
+ #include "gdal_version.h"
+ #include "gdal_priv.h"
+ #include "ogr_spatialref.h"
++#include "commonutils.h"
+ 
+ CPL_CVSID("$Id: gdalasyncread.cpp 3933b3a21990c6b7072b1a4e50e8520c7bfaf1f8 2021-06-09 17:21:21 +0800 C41eb $")
+ 
+@@ -73,7 +74,7 @@
+ /*                                main()                                */
+ /************************************************************************/
+ 
+-int main( int argc, char ** argv )
++MAIN_START(argc, argv)
+ 
+ {
+     GDALDatasetH        hSrcDS, hDstDS;
+@@ -558,3 +559,4 @@
+     GDALDumpOpenDatasets( stderr );
+     GDALDestroyDriverManager();
+ }
++MAIN_END
+diff -ru gdal-3.3.2.orig/apps/gdalflattenmask.c gdal-3.3.2/apps/gdalflattenmask.c
+--- gdal-3.3.2.orig/apps/gdalflattenmask.c	2021-09-01 05:51:35.000000000 -0400
++++ gdal-3.3.2/apps/gdalflattenmask.c	2021-10-24 23:27:25.508783875 -0400
+@@ -29,6 +29,7 @@
+ #include "gdal.h"
+ #include "cpl_conv.h"
+ #include "cpl_string.h"
++#include <wchar.h>
+ 
+ CPL_CVSID("$Id: gdalflattenmask.c 355b41831cd2685c85d1aabe5b95665a2c6e99b7 2019-06-19 17:07:04 +0200 Even Rouault $")
+ 
+@@ -55,7 +56,7 @@
+ /*                                main()                                */
+ /************************************************************************/
+ 
+-int main(int argc, char* argv[])
++int wmain(int argc, wchar_t* argv[])
+ {
+     const char* pszFormat = "GTiff";
+     const char* pszSrcFilename = NULL;
+diff -ru gdal-3.3.2.orig/apps/gdaltorture.cpp gdal-3.3.2/apps/gdaltorture.cpp
+--- gdal-3.3.2.orig/apps/gdaltorture.cpp	2021-09-01 05:51:35.000000000 -0400
++++ gdal-3.3.2/apps/gdaltorture.cpp	2021-10-24 23:27:23.793783899 -0400
+@@ -29,6 +29,7 @@
+ #include "gdal.h"
+ #include "cpl_string.h"
+ #include "cpl_conv.h"
++#include "commonutils.h"
+ 
+ #include <cassert>
+ 
+@@ -237,7 +238,7 @@
+ /*                                main()                                */
+ /************************************************************************/
+ 
+-int main( int argc, char **argv )
++MAIN_START(argc, argv)
+ {
+     GDALAllRegister();
+ 
+@@ -292,3 +293,4 @@
+ 
+     return 0;
+ }
++MAIN_END
+diff -ru gdal-3.3.2.orig/apps/gdalwarpsimple.c gdal-3.3.2/apps/gdalwarpsimple.c
+--- gdal-3.3.2.orig/apps/gdalwarpsimple.c	2021-09-01 05:51:35.000000000 -0400
++++ gdal-3.3.2/apps/gdalwarpsimple.c	2021-10-24 23:27:25.509783875 -0400
+@@ -31,6 +31,7 @@
+ #include "gdal_alg.h"
+ #include "cpl_string.h"
+ #include "ogr_srs_api.h"
++#include <wchar.h>
+ 
+ CPL_CVSID("$Id: gdalwarpsimple.c ff8146d84de7cba8e09d212d5481ea7d2ede3e98 2017-06-27 20:47:31Z Even Rouault $")
+ 
+@@ -91,7 +92,7 @@
+ /*                                main()                                */
+ /************************************************************************/
+ 
+-int main( int argc, char ** argv )
++int wmain( int argc, wchar_t ** argv )
+ 
+ {
+     GDALDatasetH        hSrcDS, hDstDS;
+diff -ru gdal-3.3.2.orig/apps/multireadtest.cpp gdal-3.3.2/apps/multireadtest.cpp
+--- gdal-3.3.2.orig/apps/multireadtest.cpp	2021-09-01 05:51:34.000000000 -0400
++++ gdal-3.3.2/apps/multireadtest.cpp	2021-10-24 23:27:23.794783899 -0400
+@@ -30,6 +30,7 @@
+ #include "gdal_alg.h"
+ #include "cpl_multiproc.h"
+ #include "cpl_string.h"
++#include "commonutils.h"
+ #include <vector>
+ 
+ CPL_CVSID("$Id: multireadtest.cpp cf1507fcfdb6ef16ec9afab68cc0d7d969c7bcbd 2020-02-27 21:22:11 +0100 Even Rouault $")
+@@ -121,7 +122,7 @@
+ /*                                main()                                */
+ /************************************************************************/
+ 
+-int main( int argc, char ** argv )
++MAIN_START(argc, argv)
+ 
+ {
+ /* -------------------------------------------------------------------- */
+@@ -254,3 +255,4 @@
+ 
+     return 0;
+ }
++MAIN_END
+diff -ru gdal-3.3.2.orig/apps/testreprojmulti.cpp gdal-3.3.2/apps/testreprojmulti.cpp
+--- gdal-3.3.2.orig/apps/testreprojmulti.cpp	2021-09-01 05:51:34.000000000 -0400
++++ gdal-3.3.2/apps/testreprojmulti.cpp	2021-10-24 23:27:23.798783899 -0400
+@@ -32,6 +32,7 @@
+ #include "cpl_atomic_ops.h"
+ #include "cpl_multiproc.h"
+ #include "ogr_spatialref.h"
++#include "commonutils.h"
+ 
+ CPL_CVSID("$Id: testreprojmulti.cpp 355b41831cd2685c85d1aabe5b95665a2c6e99b7 2019-06-19 17:07:04 +0200 Even Rouault $")
+ 
+@@ -63,7 +64,7 @@
+         CPLAtomicInc(&nIter);
+         memcpy(padfResultX, padfRefX, 1024 * sizeof(double));
+         memcpy(padfResultY, padfRefY, 1024 * sizeof(double));
+-        poCT->TransformEx( 1024, padfResultX, padfResultY, nullptr, nullptr );
++        poCT->Transform( 1024, padfResultX, padfResultY, nullptr, nullptr );
+ 
+         /* Check that the results are consistent with the reference results */
+         assert(memcmp(padfResultX, padfRefResultX, 1024 * sizeof(double)) == 0);
+@@ -74,7 +75,7 @@
+     }
+ }
+ 
+-int main(int argc, char* argv[])
++MAIN_START(argc, argv)
+ {
+     int nThreads = 2;
+ 
+@@ -109,7 +110,7 @@
+     memcpy(padfRefResultX, padfRefX, 1024 * sizeof(double));
+     memcpy(padfRefResultY, padfRefY, 1024 * sizeof(double));
+ 
+-    poCT->TransformEx( 1024, padfRefResultX, padfRefResultY, nullptr, nullptr );
++    poCT->Transform( 1024, padfRefResultX, padfRefResultY, nullptr, nullptr );
+ 
+     for(int i=0;i<nThreads;i++)
+         CPLCreateThread(ReprojFunc, nullptr);
+@@ -119,3 +120,4 @@
+ 
+     return 0;
+ }
++MAIN_END
